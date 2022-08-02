@@ -21,62 +21,68 @@ if (isset($_POST['edit'])) {
             $_SESSION['pesan'] = "email";
             header("Location: ../page/profile.php");
         } else {
-            $nama = validasi($_POST['nama']);
-            $email = $_POST['email'];
-            $tgllahir = $_POST['tgllahir'];
-
-            $alamat = null;
-            $nohp = null;
-            $tmplahir = null;
-
-
-            // Fungsi validasi text inputan
-            if (!empty($_POST['alamat'])) {
-                $alamat = $_POST['alamat'];
-
-                $alamat = validasi($alamat);
-                if ($alamat == "") {
-                    $alamat = null;
-                }
-            }
-
-            if (!empty($_POST['nohp'])) {
-                $nohp = $_POST['nohp'];
-
-                $nohp = validasi($nohp);
-                if ($nohp == "") {
-                    $nohp = null;
-                }
-            }
-
-            if (!empty($_POST['tmplahir'])) {
-                $tmplahir = $_POST['tmplahir'];
-
-                $tmplahir = validasi($tmplahir);
-                if ($tmplahir == "") {
-                    $tmplahir = null;
-                }
-            }
-
-
-            $gambar = upload();
-
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $_SESSION['pesan'] = "email";
+            if (empty($_POST['nik']) || strlen($_POST['nik']) > 16) {
+                $_SESSION['pesan'] = "nik";
                 header("Location: ../page/profile.php");
             } else {
-                if ($gambar == false) {
-                    $sql3 = "UPDATE petugas SET Nama='$nama', NoHP='$nohp', Tanggal_lahir='$tgllahir', Tempat_lahir='$tmplahir', Alamat='$alamat' WHERE Kode_petugas='$kode'";
-                    $query1 = mysqli_query($conn, $sql3);
-                } else {
-                    $sql3 = "UPDATE petugas SET Nama='$nama', NoHP='$nohp', Tanggal_lahir='$tgllahir', Tempat_lahir='$tmplahir', Alamat='$alamat', Foto='$gambar' WHERE Kode_petugas='$kode'";
-                    $query2 = mysqli_query($conn, $sql3);
+                $nama = validasi($_POST['nama']);
+                $email = $_POST['email'];
+                $nik = validasi($_POST['nik']);
+                $tgllahir = $_POST['tgllahir'];
+
+                $alamat = null;
+                $nohp = null;
+                $tmplahir = null;
+
+
+                // Fungsi validasi text inputan
+                if (!empty($_POST['alamat'])) {
+                    $alamat = $_POST['alamat'];
+
+                    $alamat = validasi($alamat);
+                    if ($alamat == "") {
+                        $alamat = null;
+                    }
                 }
 
-                $sql = "UPDATE auth SET Updated_at='$now', Email='$email' WHERE Kode_petugas='$kode'";
-                $query = mysqli_query($conn, $sql);
-                $_SESSION['pesan'] = "200";
-                header("Location: ../page/profile.php");
+                if (!empty($_POST['nohp'])) {
+                    $nohp = $_POST['nohp'];
+
+                    $nohp = validasi($nohp);
+                    if ($nohp == "") {
+                        $nohp = null;
+                    }
+                }
+
+                if (!empty($_POST['tmplahir'])) {
+                    $tmplahir = $_POST['tmplahir'];
+
+                    $tmplahir = validasi($tmplahir);
+                    if ($tmplahir == "") {
+                        $tmplahir = null;
+                    }
+                }
+
+
+                $gambar = upload();
+
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $_SESSION['pesan'] = "email";
+                    header("Location: ../page/profile.php");
+                } else {
+                    if ($gambar == false) {
+                        $sql3 = "UPDATE petugas SET Nama='$nama', NIK='$nik', NoHP='$nohp', Tanggal_lahir='$tgllahir', Tempat_lahir='$tmplahir', Alamat='$alamat' WHERE Kode_petugas='$kode'";
+                        $query1 = mysqli_query($conn, $sql3);
+                    } else {
+                        $sql3 = "UPDATE petugas SET Nama='$nama', NIK='$nik', NoHP='$nohp', Tanggal_lahir='$tgllahir', Tempat_lahir='$tmplahir', Alamat='$alamat', Foto='$gambar' WHERE Kode_petugas='$kode'";
+                        $query2 = mysqli_query($conn, $sql3);
+                    }
+
+                    $sql = "UPDATE auth SET Updated_at='$now', Email='$email' WHERE Kode_petugas='$kode'";
+                    $query = mysqli_query($conn, $sql);
+                    $_SESSION['pesan'] = "200";
+                    header("Location: ../page/profile.php");
+                }
             }
         }
     }

@@ -6,7 +6,7 @@ $kode = $_SESSION['id'];
 
 date_default_timezone_set('Asia/Jakarta');
 $now = date("Y-m-d H:i:s");
-$insert = mysqli_query($conn, "UPDATE auth SET Status=0, Last_login='$now' WHERE Kode_petugas='$kode'");
+$insert = mysqli_query($conn, "UPDATE auth SET Last_login='$now' WHERE Kode_petugas='$kode'");
 session_destroy();
 
 if (isset($_GET['change'])) {

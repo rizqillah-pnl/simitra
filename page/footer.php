@@ -4,11 +4,10 @@
    <!-- ============================================================== -->
    <!-- footer -->
    <!-- ============================================================== -->
-   <footer class="footer text-center">
+   <footer class="footer text-end d-flex flex-row-reverse">
        <div class="row">
            <div class="col-md-3"></div>
-           <div class="col-md-auto">
-               All Rights Reserved by <a href="../">GeoBase</a>&COPY; 2022
+           <div class="col-md-auto">&COPY; <a href="../">Simitra</a> 2022
            </div>
        </div>
    </footer>

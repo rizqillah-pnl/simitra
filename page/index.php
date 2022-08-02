@@ -55,14 +55,19 @@ $result1 = mysqli_fetch_assoc($data);
     <?php if (isset($_SESSION['pesan'])) :
         $pesan = $_SESSION['pesan'];
     ?>
-        <?php if ($pesan == "pesan-dihapus") : ?>
+        <?php if ($pesan == "berhasil") : ?>
             <script>
-                swal("Berhasil!", "Pesan Berhasil Dihapus!", "success");
+                swal("Berhasil!", "Berhasil Mendaftar Sebagai Petugas!", "success");
             </script>
 
-        <?php elseif ($pesan == "pesan-gagal") : ?>
+        <?php elseif ($pesan == "gagal") : ?>
             <script>
-                swal("Gagal!", "Pesan Gagal Dihapus!", "warning");
+                swal("Gagal!", "Gagal Mendaftar Sebagai Petugas!", "warning");
+            </script>
+
+        <?php elseif ($pesan == "already") : ?>
+            <script>
+                swal("Gagal!", "Sudah Mendaftar Sebagai Petugas!", "warning");
             </script>
         <?php endif; ?>
     <?php endif; ?>
@@ -85,9 +90,13 @@ $result1 = mysqli_fetch_assoc($data);
                 <ul id="sidebarnav">
                     <li class="sidebar-item" style="background-color: #1a9bfc; border-radius: 9px"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php" aria-expanded="false"><i class="mdi mdi-view-dashboard text-white"></i><span class="hide-menu text-white">Dashboard</span></a></li>
 
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="lowongan-user.php" aria-expanded="false"><i class="mdi mdi-worker"></i><span class="hide-menu">Lowongan Terdaftar</span></a></li>
+
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.php" aria-expanded="false"><i class="mdi mdi-account"></i><span class="hide-menu">Profile</span></a></li>
 
-                    <?php if ($result1['Id_jabatan'] == 1 || $result1['Id_jabatan'] == 2) {  ?>
+                    <?php if ($result1['Id_jabatan'] == 1) {  ?>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="lowongan.php" aria-expanded="false"><i class="mdi mdi-file-document-box"></i><span class="hide-menu">Daftar Lowongan</span></a></li>
+
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="user.php" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Account</span></a></li>
                     <?php } ?>
 
@@ -145,7 +154,7 @@ $result1 = mysqli_fetch_assoc($data);
             <div class="row">
 
                 <!-- column daftar bangunan terbaru -->
-                <div class="col-lg">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body" style="padding-bottom: 15px; padding-top: 25px;">
                             <!-- title -->
@@ -155,16 +164,31 @@ $result1 = mysqli_fetch_assoc($data);
                                     <h6 class="card-subtitle">Daftar Lowongan Pekerjaan</h6>
 
                                     <div class="row">
-                                        <?php $dataLowongan = mysqli_query($conn, "SELECT * FROM lowongan"); ?>
+                                        <?php $dataLowongan = mysqli_query($conn, "SELECT lowongan.id, lowongan.jenis_lowongan, lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, tb_lowongan_user.id_lowongan, tb_lowongan_user.id_petugas FROM lowongan LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_lowongan=lowongan.id"); ?>
 
                                         <?php foreach ($dataLowongan as $row) : ?>
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="card" style="width: 18rem;">
                                                     <div class="card-body">
                                                         <h5 class="card-title"><?= $row['jenis_lowongan']; ?></h5>
                                                         <p class="card-text"><?= $row['deskripsi']; ?></p>
-                                                        <div class="card-text mb-3">Tanggal : <?= $row['tanggal']; ?></div>
-                                                        <div class="text-end"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal<?= $row['id']; ?>">Daftar</button>
+                                                        <?php
+                                                        $tanggalMulai = date('d M', strtotime($row['tanggal_mulai']));
+                                                        $tanggalAkhir = date('d M Y', strtotime($row['tanggal_akhir']));
+
+                                                        ?>
+
+                                                        <div class="card-text mb-3">Tanggal : <?= $tanggalMulai; ?> - <?= $tanggalAkhir; ?></div>
+
+                                                        <?php if ($result1['Kode_petugas'] == $row['id_petugas']) {
+                                                            $disable = "text-white disabled";
+                                                            $text = "Sudah Terdaftar";
+                                                        } else {
+                                                            $disable = "";
+                                                            $text = "Daftar";
+                                                        } ?>
+
+                                                        <div class="text-end"><button class="btn btn-success text-white <?= $disable; ?>" data-bs-toggle="modal" data-bs-target="#modal<?= $row['id']; ?>"><?= $text; ?></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -175,20 +199,31 @@ $result1 = mysqli_fetch_assoc($data);
                                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalLabel"><?= $row['jenis_lowongan']; ?></h5>
+                                                            <h5 class="modal-title" id="modalLabel"><?= ucwords($row['jenis_lowongan']); ?></h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <table>
+                                                            <table class="table">
+                                                                <tr>
+                                                                    <td>Tanggal Mulai</td>
+                                                                    <td>:</td>
+                                                                    <td><?= date('d-M-Y', strtotime($row['tanggal_mulai'])); ?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Tanggal Berakhir</td>
+                                                                    <td>:</td>
+                                                                    <td><?= date('d-M-Y', strtotime($row['tanggal_akhir'])); ?></td>
+                                                                </tr>
+
                                                                 <tr>
                                                                     <td>Deskripsi</td>
                                                                     <td>:</td>
-                                                                    <td><?= $row['deskripsi']; ?></td>
+                                                                    <td><?= ucwords($row['deskripsi']); ?></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Persyaratan</td>
                                                                     <td>:</td>
-                                                                    <td><?= $row['persyaratan']; ?></td>
+                                                                    <td><?= ucwords($row['persyaratan']); ?></td>
                                                                 </tr>
                                                             </table>
                                                         </div>
@@ -196,7 +231,7 @@ $result1 = mysqli_fetch_assoc($data);
                                                             <input type="hidden" name="idLowongan" value="<?= $row['id']; ?>">
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="button" class="btn btn-primary">Daftar</button>
+                                                                <button type="submit" name="daftarLowongan" class="btn btn-success text-white">Daftar</button>
                                                             </div>
                                                         </form>
                                                     </div>

@@ -17,17 +17,6 @@ if (isset($_POST['tambah-user'])) {
     $pass = htmlspecialchars($_POST['password']);
     $jabatan = "";
 
-    if ($result['Id_jabatan'] != "1") {
-        if ($_POST['jabatan'] == "1" || $_POST['jabatan'] == "2") {
-            $_SESSION['pesan'] = "error";
-            header("Location: ../page/user.php");
-        } else {
-            $jabatan = $_POST['jabatan'];
-        }
-    } else {
-        $jabatan = $_POST['jabatan'];
-    }
-
     $username = strtolower($nama);
     $username = str_replace(' ', '', $username);
 
@@ -43,7 +32,7 @@ if (isset($_POST['tambah-user'])) {
         $_SESSION['pesan'] = "gagal";
         header("Location: ../page/user.php");
     } else {
-        $query2 = mysqli_query($conn, "INSERT INTO auth (Kode_petugas, Username, Password, Last_login, Created_at, Status) VALUES ('$kode_petugas', '$username', '$passhash', '$now', '$now', 0)");
+        $query2 = mysqli_query($conn, "INSERT INTO auth (Kode_petugas, Username, Password, Last_login, Created_at) VALUES ('$kode_petugas', '$username', '$passhash', '$now', '$now')");
 
         $cari = mysqli_query($conn, "SELECT * FROM auth WHERE Username='$username' OR Email='$username'");
         $data = mysqli_fetch_assoc($cari);

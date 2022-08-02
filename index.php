@@ -5,18 +5,14 @@ session_start();
 
 
 if (isset($_SESSION['id'])) {
-    $dash = "<div class='d-flex ms-lg-4'><a class='btn btn-secondary-outline' href='page/index.php'>Dashboard</a><a class='btn btn-link ms-3' href='logout.php' style='text-decoration: none;'>Logout</a></div></div>";
-    $btnHome = "<a class='btn btn-primary me-3 btn-lg' href='page/index.php' role='button'>Dashboard &raquo;</a>";
-    $tblDaftar = "";
+    $login = true;
 
     $kode = $_SESSION['id'];
     date_default_timezone_set('Asia/Jakarta');
     $now = date("Y-m-d H-i-s");
     $insert = mysqli_query($conn, "UPDATE auth SET Last_login='$now' WHERE Kode_petugas='$kode'");
 } else {
-    $dash = "<div class='d-flex ms-lg-4'><a class='btn btn-secondary-outline' href='page/login.php'>Sign In</a><a class='btn btn-primary ms-3'  href='page/login.php'>Sign Up</a></div>";
-    $btnHome = "<a class='btn btn-primary me-3 btn-lg' href='page/login.php' role='button'><i class='fa-solid fa-file-lines' style='margin-right: 10px;'></i> Daftar Sekarang</a>";
-    $tblDaftar = "<div class='text-center'><a class='btn btn-primary' href='page/login.php' role='button'><i class='fa-solid fa-file-lines' style='margin-right:10px;'></i>DAFTAR SEKARANG</a></div>";
+    $login = false;
 }
 
 ?>
@@ -87,11 +83,14 @@ if (isset($_SESSION['id'])) {
                         <li class="nav-item"><a class="nav-link" aria-current="page" href="#home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" aria-current="page" href="#fitur">Fitur</a></li>
                         <li class="nav-item"><a class="nav-link" aria-current="page" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" aria-current="page" href="#gallery">Gallery</a></li>
                         <li class="nav-item"><a class="nav-link" aria-current="page" href="#contact">Contact Us</a></li>
                         <li class="nav-item"><a class="nav-link" aria-current="page" href="#ourteam">Our Team</a></li>
                     </ul>
-                    <?= $dash; ?>
+                    <?php if ($login) : ?>
+                        <div class='d-flex ms-lg-4'><a class='btn btn-secondary-outline' href='page/index.php'>Dashboard</a><a class='btn btn-link ms-3' href='logout.php' style='text-decoration: none;'>Logout</a></div>
+                    <?php else : ?>
+                        <div class='d-flex ms-lg-4'><a class='btn btn-secondary-outline' href='page/login.php'>Sign In</a><a class='btn btn-primary ms-3' href='page/login.php'>Sign Up</a></div>
+                    <?php endif; ?>
                 </div>
             </div>
         </nav>
@@ -103,12 +102,15 @@ if (isset($_SESSION['id'])) {
                         <p class="mb-6 lead text-secondary">Dengan adanya aplikasi ini akan mempermudah <br class="d-none d-xl-block" />petugas dalam mendata bangunan penduduk secara <br class="d-none d-xl-block" />
                             <span class="text-success">online</span> kapanpun dan dimanapun anda berada.
                         </p>
-                        <div class="text-center text-md-start"><?= $btnHome; ?>
-                            <a class="btn btn-link text-primary me-3 btn-sm" href="#!" role="button" data-bs-toggle="modal" data-bs-target="#popupVideo">
-                                <span class="fas fa-play me-2"></span>Tonton tutorial </a>
+                        <div class="text-center text-md-start">
+                            <?php if ($login) : ?>
+                                <a class='btn btn-primary me-3 btn-lg' href='page/index.php' role='button'>Dashboard &raquo;</a>
+                            <?php else : ?>
+                                <a class='btn btn-primary me-3 btn-lg' href='page/login.php' role='button'><i class='fa-solid fa-file-lines' style='margin-right: 10px;'></i> Daftar Sekarang</a>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    <div class="col-md-6 text-end order-sm-1 order-md-2 order-1 order-lg-2"><img class="pt-7 pt-md-0 img-fluid" src="public/assets/assets/img/hero/hero-img.png" alt="" /></div>
+                    <div class="col-md-6 text-end order-sm-1 order-md-2 order-1 order-lg-2"><img class="pt-7 pt-md-0 img-fluid" src="public/img/bg/remote-team.png" alt="" /></div>
                 </div>
             </div>
         </section>
@@ -118,7 +120,7 @@ if (isset($_SESSION['id'])) {
         <!-- <section> begin ============================-->
         <section class="pt-5 pt-md-9 mb-6" id="fitur">
 
-            <div class="bg-holder z-index--1 bottom-0  d-sm-block" style="background-image:url(public/assets/assets/img/category/shape.png);opacity:.5;">
+            <div class="bg-holder z-index--1 bottom-0  d-sm-block" style="background-image:url(public/img/bg/background.webp);opacity:.5;">
             </div>
             <!--/.bg-holder-->
 
@@ -142,7 +144,9 @@ if (isset($_SESSION['id'])) {
                         <p class="mb-0 fw-medium text-secondary"><i>User Interface</i> dan <i>User Experience</i> yang dinamis terhadap perubahan data.</p>
                     </div>
                 </div>
-                <?= $tblDaftar; ?>
+                <?php if (!$login) : ?>
+                    <div class='text-center'><a class='btn btn-primary' href='page/login.php' role='button'><i class='fa-solid fa-file-lines' style='margin-right:10px;'></i>DAFTAR SEKARANG</a></div>
+                <?php endif; ?>
             </div><!-- end of .container-->
 
         </section>
@@ -171,7 +175,7 @@ if (isset($_SESSION['id'])) {
                         <h4 class="fs-1 fw-bold">Dynamic UI and UX</h4>
                         <p class="mb-4 fw-medium text-secondary">Desain yang dinamis terhadap perubahan data!</p>
                     </div>
-                    <div class="col-lg-6"><img class="img-fluid" src="public/assets/assets/img/validation/validation.png" alt="" /></div>
+                    <div class="col-lg-6"><img class="img-fluid" src="public/img/bg/crowdfunding.png" alt="" /></div>
                 </div>
             </div><!-- end of .container-->
 
@@ -206,7 +210,7 @@ if (isset($_SESSION['id'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 order-lg-1 order-md-2" id="picmahasiswa2"><img class="img-fluid" src="public/assets/assets/img/manager/manager.png" alt="" /></div>
+                    <div class="col-lg-6 order-lg-1 order-md-2" id="picmahasiswa2"><img class="img-fluid" src="public/img/bg/agriculture-1.png" alt="" /></div>
                 </div>
             </div><!-- end of .container-->
 
@@ -233,89 +237,17 @@ if (isset($_SESSION['id'])) {
                         <h4 class="fw-bold fs-1">Pendataan yang Idealis</h4>
                         <p class="mb-4 fw-medium text-secondary">Data yang disajikan mudah diproses dan diolah dengan cepat</p>
                     </div>
-                    <div class="col-lg-6"><img class="img-fluid" src="public/assets/assets/img/marketer/marketer.png" alt="" /></div>
+                    <div class="col-lg-6"><img class="img-fluid" src="public/img/bg/task.png" alt="" /></div>
                 </div>
             </div><!-- end of .container-->
 
         </section>
         <!-- <section> close ============================-->
         <!-- ============================================-->
-
-
-
-        <div class="container-fluid" id="gallery">
-            <section class="pt-5 to-center">
-                <div class="row text-center">
-                    <h1>Gallery</h1>
-                    <h5 class="text-secondary">Kegiatan Harian Kantor Badan Pusat Statistik Lhokseumawe</h5>
-                </div>
-                <div class="row text-center mt-5">
-                    <div class="col-lg-2"></div>
-                    <div class="col-md-1"></div>
-                    <div class="col-lg-6 col-md-10 col-sm-12 col-12">
-                        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/image4.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/image5.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/image3.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item active">
-                                    <img src="public/img/galeri/image6.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/IMG_0421.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/image1.jpg" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/image2.jpg" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/IMG_0422.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/IMG_0423.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/IMG_0424.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/IMG_0425.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/IMG_0426.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="public/img/galeri/IMG_0427.JPG" class="d-block w-100 rounded" alt="..." height="400">
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-lg-2"></div>
-                </div>
-            </section>
-        </div>
-
-
         <!-- ============================================-->
         <!-- <section> begin ============================-->
         <section class="py-md-11 py-8" id="contact">
-            <div class="bg-holder z-index--1 bottom-0 d-sm-block background-position-top" style="background-image:url(public/assets/assets/img/superhero/oval.png);opacity:.5; background-position: top !important ;">
+            <div class="bg-holder z-index--1 bottom-0 d-sm-block background-position-top" style="background-image:url(public/img/bg/background.webp);opacity:.5; background-position: top !important ;">
             </div>
             <!--/.bg-holder-->
 
@@ -323,7 +255,7 @@ if (isset($_SESSION['id'])) {
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
                         <h1 class="fw-bold mb-4 fs-7">Butuh Bantuan?</h1>
-                        <p class="mb-5 text-info fw-medium">Bantuan apapun, mulai dari masalah UI, UX, Fitur dan lainnya terkait dengan aplikasi GeoBase, dapat ditanyakan sekarang juga! </p>
+                        <p class="mb-5 text-info fw-medium">Bantuan apapun terkait website simitra dapat ditanyakan langsung sekarang juga!</p>
                         <a class="btn btn-primary btn-md" href="mailto:polah3bps@gmail.com"><i class="fa-solid fa-envelope" style="margin-right: 10px;"></i> Contact Us</a>
                     </div>
                 </div>
@@ -332,10 +264,6 @@ if (isset($_SESSION['id'])) {
         </section>
         <!-- <section> close ============================-->
         <!-- ============================================-->
-
-
-
-
         <!-- ============================================-->
         <!-- <section> begin ============================-->
         <section class="pt-5" id="ourteam">
@@ -374,10 +302,6 @@ if (isset($_SESSION['id'])) {
         </section>
         <!-- <section> close ============================-->
         <!-- ============================================-->
-
-
-
-
         <!-- ============================================-->
         <!-- <section> begin ============================-->
         <section class="pb-2 pb-lg-5">
@@ -392,7 +316,6 @@ if (isset($_SESSION['id'])) {
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#home">Home</a></li>
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#fitur">Fitur</a></li>
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#about">About</a></li>
-                            <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#gallery">Gallery</a></li>
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#contact">Contact Us</a></li>
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#ourteam">Our Team</a></li>
                         </ul>
@@ -406,36 +329,12 @@ if (isset($_SESSION['id'])) {
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">Terms of Service</a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 text-center order-4 order-md-2 order-lg-4 mb-5 mt-sm-4 mt-md-0">
-                        <p class="fs-2 mb-lg-4">
-                            Selalu Menerima Pemberitahuan Via WhatsApp</p>
-                        <form method="POST" action="model/add-info-nowa.php">
-                            <input class="form-control mb-3" type="tel" placeholder="Nomor WA" aria-label="phone" maxlength="15" onkeypress="return onlyNumberKey(event)" name="number">
-                            <button class="btn btn-primary fw-medium py-1" type="submit" name="submit">Terima</button>
-                        </form>
-                    </div>
                 </div>
             </div><!-- end of .container-->
-
-
-            <script>
-                function onlyNumberKey(evt) {
-                    // Hanya code ASCII dalam range itu yang diterima
-                    var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-                    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
-                        return false;
-                    }
-                    return true;
-                }
-            </script>
 
         </section>
         <!-- <section> close ============================-->
         <!-- ============================================-->
-
-
-
-
         <!-- ============================================-->
         <!-- <section> begin ============================-->
         <section class="text-center py-0">
@@ -444,37 +343,25 @@ if (isset($_SESSION['id'])) {
                 <div class="container border-top py-3">
                     <div class="row justify-content-center">
                         <div class="col-12 col-md-auto mb-1 mb-md-0">
-                            <p class="mb-0">Alright Reserved &copy; 2022 <a href="index.php" class="text-decoration-none ms-1">Simitra</a> </p>
+                            <p class="mb-0">&copy; 2022 <a href="index.php" class="text-decoration-none ms-1">Simitra</a> </p>
                         </div>
                         <div class="col-12 col-md-auto">
                             <p class="mb-0">
-                                Made by
-                                <!-- with<span class="fas fa-heart mx-1 text-danger"> </span>by  -->
+                                Made
+                                with<span class="fas fa-heart mx-1 text-danger"> </span>by
                                 <a class="text-decoration-none ms-1" href="https://themewagon.com/" target="_blank">ThemeWagon</a>
                             </p>
                         </div>
                     </div>
                 </div>
             </div><!-- end of .container-->
-
         </section>
         <!-- <section> close ============================-->
         <!-- ============================================-->
-
-
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
-
-
-    <div class="modal fade" id="popupVideo" tabindex="-1" aria-labelledby="popupVideo" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <iframe class="rounded" style="width:100%;height:500px;" src="https://www.youtube.com/embed/jfKfPfyJRdk" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
 
 
     <!-- ===============================================-->
@@ -486,18 +373,6 @@ if (isset($_SESSION['id'])) {
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="public/assets/vendors/fontawesome/all.min.js"></script>
     <script src="public/assets/assets/js/theme.js"></script>
-    <!-- <script src="../public/js/script.js"></script> -->
-    <!-- Bootstrap tether Core JavaScript -->
-    <!-- <script src="../public/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
-    <!-- <script src="../public/js/app-style-switcher.js"></script> -->
-    <!--Wave Effects -->
-    <!-- <script src="../public/js/waves.js"></script> -->
-    <!--Menu sidebar -->
-    <!-- <script src="../public/js/sidebarmenu.js"></script> -->
-    <!--Custom JavaScript -->
-    <!-- <script src="../public/js/custom.js"></script> -->
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap" rel="stylesheet">
 
 </body>
 
