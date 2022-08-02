@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2022 at 09:17 AM
+-- Generation Time: Aug 02, 2022 at 10:26 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -44,8 +44,8 @@ CREATE TABLE `auth` (
 
 INSERT INTO `auth` (`Kode_petugas`, `Username`, `Email`, `Password`, `Old_password`, `Last_login`, `Created_at`, `Updated_at`) VALUES
 (1, 'ila', 'rahmaini@gmail.com', 'aafe26449a364e5d6b5db7dc565a9b6a', 'aafe26449a364e5d6b5db7dc565a9b6a', '2022-08-01 13:54:02', '2022-07-08 07:55:50', '2022-07-27 15:44:10'),
-(23, 'admin', 'admin@geobase.com', '21232f297a57a5a743894a0e4a801fc3', NULL, '2022-08-01 14:18:18', '2022-07-19 07:41:01', '2022-07-28 08:37:36'),
-(57, 'rizqillah', NULL, 'aafe26449a364e5d6b5db7dc565a9b6a', NULL, '2022-08-02 09:15:44', '2022-08-02 08:16:07', NULL);
+(23, 'admin', 'admin@geobase.com', '21232f297a57a5a743894a0e4a801fc3', NULL, '2022-08-02 10:16:23', '2022-07-19 07:41:01', '2022-08-02 09:44:26'),
+(57, 'rizqillah', NULL, 'aafe26449a364e5d6b5db7dc565a9b6a', NULL, '2022-08-02 09:18:43', '2022-08-02 08:16:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -78,19 +78,20 @@ CREATE TABLE `lowongan` (
   `tanggal_mulai` date DEFAULT NULL,
   `tanggal_akhir` date DEFAULT NULL,
   `persyaratan` text NOT NULL,
-  `deskripsi` text NOT NULL
+  `deskripsi` text NOT NULL,
+  `gambar` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `lowongan`
 --
 
-INSERT INTO `lowongan` (`id`, `jenis_lowongan`, `tanggal_mulai`, `tanggal_akhir`, `persyaratan`, `deskripsi`) VALUES
-(1, 'Survei Ekonomi', '2022-01-11', '2022-01-26', 'adas', 'asdasdas'),
-(2, 'Survei Pertanian', '2022-01-02', '2022-08-24', 'asdsad', 'assdasads'),
-(3, 'Sensus penduduk', '2022-08-03', '2022-08-12', 'asdasd', 'asdsa'),
-(4, 'Survei Pekerjaan', '2022-08-01', '2022-09-10', 'dsadsad', 'asdasd'),
-(5, 'Survei SBH', '2022-08-01', '2022-09-01', 'sdaasdasd', 'sadsadasd');
+INSERT INTO `lowongan` (`id`, `jenis_lowongan`, `tanggal_mulai`, `tanggal_akhir`, `persyaratan`, `deskripsi`, `gambar`) VALUES
+(1, 'Survei Ekonomi', '2022-01-11', '2022-01-26', 'adas', 'asdasdas', '4.png'),
+(2, 'Survei Pertanian', '2022-01-02', '2022-08-24', 'asdsad', 'assdasads', '13.png'),
+(3, 'Sensus penduduk', '2022-08-03', '2022-08-12', 'asdasd', 'asdsa', '5.png'),
+(4, 'Survei Pekerjaan', '2022-08-01', '2022-09-10', 'dsadsad', 'asdasd', '27.png'),
+(5, 'Survei SBH', '2022-08-01', '2022-09-01', 'sdaasdasd', 'sadsadasd', '103.png');
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,7 @@ CREATE TABLE `petugas` (
 
 INSERT INTO `petugas` (`Kode_petugas`, `NIK`, `Nama`, `Foto`, `Jabatan`, `Tempat_lahir`, `Tanggal_lahir`, `Alamat`, `NoHP`, `Jkel`) VALUES
 (1, NULL, 'Rahmaini', NULL, 2, NULL, NULL, NULL, NULL, 'P'),
-(23, NULL, 'Admin', NULL, 1, NULL, NULL, NULL, NULL, 'L'),
+(23, '2132132132', 'Admin', NULL, 1, '', '0000-00-00', '', '', 'L'),
 (57, NULL, 'rizqillah', NULL, 2, NULL, NULL, NULL, NULL, 'L');
 
 -- --------------------------------------------------------

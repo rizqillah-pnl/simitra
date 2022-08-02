@@ -164,31 +164,34 @@ $result1 = mysqli_fetch_assoc($data);
                                     <h6 class="card-subtitle">Daftar Lowongan Pekerjaan</h6>
 
                                     <div class="row">
-                                        <?php $dataLowongan = mysqli_query($conn, "SELECT lowongan.id, lowongan.jenis_lowongan, lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, tb_lowongan_user.id_lowongan, tb_lowongan_user.id_petugas FROM lowongan LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_lowongan=lowongan.id"); ?>
+                                        <?php $dataLowongan = mysqli_query($conn, "SELECT lowongan.id, lowongan.jenis_lowongan, lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, lowongan.gambar, tb_lowongan_user.id_lowongan, tb_lowongan_user.id_petugas FROM lowongan LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_lowongan=lowongan.id"); ?>
 
                                         <?php foreach ($dataLowongan as $row) : ?>
-                                            <div class="col">
-                                                <div class="card" style="width: 18rem;">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"><?= $row['jenis_lowongan']; ?></h5>
-                                                        <p class="card-text"><?= $row['deskripsi']; ?></p>
-                                                        <?php
-                                                        $tanggalMulai = date('d M', strtotime($row['tanggal_mulai']));
-                                                        $tanggalAkhir = date('d M Y', strtotime($row['tanggal_akhir']));
+                                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col mx-auto">
+                                                <div class="card-group">
+                                                    <div class="card" style="width: 18rem;">
+                                                        <img src="../public/img/assets/<?= $row['gambar']; ?>" class="card-img-top" alt="Image">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title"><?= $row['jenis_lowongan']; ?></h5>
+                                                            <p class="card-text"><?= $row['deskripsi']; ?></p>
+                                                            <?php
+                                                            $tanggalMulai = date('d M', strtotime($row['tanggal_mulai']));
+                                                            $tanggalAkhir = date('d M Y', strtotime($row['tanggal_akhir']));
 
-                                                        ?>
+                                                            ?>
 
-                                                        <div class="card-text mb-3">Tanggal : <?= $tanggalMulai; ?> - <?= $tanggalAkhir; ?></div>
+                                                            <div class="card-text mb-3">Tanggal : <?= $tanggalMulai; ?> - <?= $tanggalAkhir; ?></div>
 
-                                                        <?php if ($result1['Kode_petugas'] == $row['id_petugas']) {
-                                                            $disable = "text-white disabled";
-                                                            $text = "Sudah Terdaftar";
-                                                        } else {
-                                                            $disable = "";
-                                                            $text = "Daftar";
-                                                        } ?>
+                                                            <?php if ($result1['Kode_petugas'] == $row['id_petugas']) {
+                                                                $disable = "text-white disabled";
+                                                                $text = "Sudah Terdaftar";
+                                                            } else {
+                                                                $disable = "";
+                                                                $text = "Daftar";
+                                                            } ?>
 
-                                                        <div class="text-end"><button class="btn btn-success text-white <?= $disable; ?>" data-bs-toggle="modal" data-bs-target="#modal<?= $row['id']; ?>"><?= $text; ?></button>
+                                                            <div class="text-end"><button class="btn btn-success text-white <?= $disable; ?>" data-bs-toggle="modal" data-bs-target="#modal<?= $row['id']; ?>"><?= $text; ?></button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
