@@ -1,7 +1,8 @@
 <!-- ============================================================== -->
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
-<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+    data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
     <!-- ============================================================== -->
 
     <!-- ============================================================== -->
@@ -18,7 +19,8 @@
                     <b class="logo-icon">
                         <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                         <!-- Dark Logo icon -->
-                        <img src="<?= $url; ?>public/favicon.ico" style="width: 50px;" alt="homepage" class="dark-logo" />
+                        <img src="<?= $url; ?>public/favicon.ico" style="width: 50px;" alt="homepage"
+                            class="dark-logo" />
                     </b>
                     <!--End Logo icon -->
                     <!-- Logo text -->
@@ -32,7 +34,8 @@
                 <!-- End Logo -->
                 <!-- ============================================================== -->
                 <!-- This is for the sidebar toggle which is visible on mobile only -->
-                <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)" style="position: fixed; right: 8px;"><i class="mdi mdi-menu"></i></a>
+                <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"
+                    style="position: fixed; right: 8px;"><i class="mdi mdi-menu"></i></a>
             </div>
             <!-- ============================================================== -->
             <!-- End Logo -->
@@ -56,13 +59,16 @@
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#"
+                            id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?php if (isset($result1['Foto'])) { ?>
-                                <center><img src="<?= $url; ?>public/img/user/<?= $result1['Foto']; ?>" alt="user" class="rounded-circle" width="31" height="31">
-                                </center>
+                            <center><img src="<?= $url; ?>public/img/user/<?= $result1['Foto']; ?>" alt="user"
+                                    class="rounded-circle" width="31" height="31">
+                            </center>
                             <?php } else { ?>
-                                <center><img src="<?= $url; ?>public/img/user/1.jpg" alt="user" class="rounded-circle" width="31" height="31">
-                                </center>
+                            <center><img src="<?= $url; ?>public/img/user/1.jpg" alt="user" class="rounded-circle"
+                                    width="31" height="31">
+                            </center>
                             <?php } ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
@@ -70,18 +76,9 @@
                                 <a class="dropdown-item" href="profile.php"><i class="ti-user m-r-5 m-l-5"></i>
                                     My Profile</a>
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="maps.php"><i class="ti-map-alt m-r-5 m-l-5"></i>
-                                    Maps</a>
-                            </li>
-                            <li>
-
-                                <a class="dropdown-item" href="message.php"><i class="ti-email m-r-5 m-l-5"></i>
-                                    Inbox</a>
-                            </li>
-                            <hr>
                             <li class="logout" id="logout">
-                                <button class="dropdown-item btn btn-link" data-bs-toggle="modal" data-bs-target="#Logout"><i class="m-r-10 mdi mdi-export"></i>
+                                <button class="dropdown-item btn btn-link" data-bs-toggle="modal"
+                                    data-bs-target="#Logout"><i class="m-r-10 mdi mdi-export"></i>
                                     Logout</button>
                             </li>
                         </ul>

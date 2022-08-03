@@ -334,7 +334,7 @@ if (isset($_SESSION['id'])) {
             <div class="container" data-aos="fade-up">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
-                        <h2>Contact</h2>
+                        <h2>Contact Us</h2>
                         <p>Silakan menghubungi kami untuk lebih detail atau dapat mengunjungi lokasi kami.</p>
                     </div>
                 </div>
@@ -460,23 +460,23 @@ if (isset($_SESSION['id'])) {
                     <div class="col-lg-1 col-md-2 mb-2 mb-md-2 mb-lg-0 mb-sm-2 order-1 order-md-1 order-lg-1 fw-bold d-md-none d-lg-inline"
                         style="font-size: 30px; "><img class="mb-4" src="public/logo.png" width="70" alt="" /></div>
                     <div class="col-lg-2 col-md-6 mb-4 mb-md-6 mb-lg-0 mb-sm-2 order-1 order-md-1 order-lg-1 fw-bold"
-                        style="font-size: 30px; ">Simitra</div>
+                        style="font-size: 25px; ">Simitra Aceh Utara</div>
                     <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 order-2 order-md-3 order-lg-2">
                         <p class="fs-2 mb-lg-4">Quick Links</p>
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none"
                                     href="#home">Home</a></li>
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none"
-                                    href="#fitur">Fitur</a></li>
-                            <li class="mb-1"><a class="link-900 text-secondary text-decoration-none"
                                     href="#about">About</a></li>
+                            <li class="mb-1"><a class="link-900 text-secondary text-decoration-none"
+                                    href="#gallery">Gallery</a></li>
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none"
                                     href="#contact">Contact Us</a></li>
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#ourteam">Our
                                     Team</a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 order-3 order-md-4 order-lg-3">
+                    <!-- <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 order-3 order-md-4 order-lg-3">
                         <p class="fs-2 mb-lg-4">Legal Stuff</p>
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none"
@@ -488,7 +488,7 @@ if (isset($_SESSION['id'])) {
                             <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">Terms of
                                     Service</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div><!-- end of .container-->
 
@@ -503,19 +503,16 @@ if (isset($_SESSION['id'])) {
                 <div class="container border-top py-3">
                     <div class="row justify-content-center">
                         <div class="col-12 col-md-auto mb-1 mb-md-0">
-                            <p class="mb-0">&copy; 2022 <a href="index.php"
-                                    class="text-decoration-none ms-1">Simitra</a> </p>
-                        </div>
-                        <div class="col-12 col-md-auto">
-                            <p class="mb-0">
-                                Made
-                                with<span class="fas fa-heart mx-1 text-danger"> </span>by
-                                <a class="text-decoration-none ms-1" href="https://themewagon.com/"
-                                    target="_blank">ThemeWagon</a>
+                            <p class="mb-0">&copy; <?= date('Y');  ?> <a href="index.php"
+                                    class="text-decoration-none ms-1">Simitra
+                                    Aceh Utara</a> Teknik Informatika <span class="fas fa-heart mx-1 text-danger">
+                                </span>by
+                                <a class="text-decoration-none ms-1" href="http://pnl.ac.id/id" target="_blank">PNL</a>
                             </p>
                         </div>
                     </div>
                 </div>
+            </div>
             </div><!-- end of .container-->
         </section>
         <!-- <section> close ============================-->

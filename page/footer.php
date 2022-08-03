@@ -7,7 +7,7 @@
    <footer class="footer text-end d-flex flex-row-reverse">
        <div class="row">
            <div class="col-md-3"></div>
-           <div class="col-md-auto">&COPY; <a href="../">Simitra</a> 2022
+           <div class="col-md-auto">&COPY; <a href="../">Simitra Aceh Utara</a> <?= date('Y');  ?>
            </div>
        </div>
    </footer>
@@ -41,7 +41,7 @@
                </div>
                <div class="modal-footer">
                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                   <a href="../logout.php?change=akun" class="btn btn-warning text-white">Ganti Akun</a>
+                   <!-- <a href="../logout.php?change=akun" class="btn btn-warning text-white">Ganti Akun</a> -->
                    <a href="../logout.php" class="btn btn-danger text-white">Keluar</a>
                </div>
            </div>
@@ -50,21 +50,21 @@
 
 
    <script>
-       window.onscroll = function() {
-           myFunction()
-       };
+window.onscroll = function() {
+    myFunction()
+};
 
-       var widget = document.getElementById('navbar');
-       var sticky = widget.offsetTop;
+var widget = document.getElementById('navbar');
+var sticky = widget.offsetTop;
 
 
-       function myFunction() {
-           if (window.pageYOffset >= sticky) {
-               widget.classList.add("sticky")
-           } else {
-               widget.classList.remove("sticky");
-           }
-       }
+function myFunction() {
+    if (window.pageYOffset >= sticky) {
+        widget.classList.add("sticky")
+    } else {
+        widget.classList.remove("sticky");
+    }
+}
    </script>
    <script src="../public/assets/libs/jquery/dist/jquery.min.js"></script>
 
