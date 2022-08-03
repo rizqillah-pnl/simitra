@@ -184,7 +184,7 @@ $result1 = mysqli_fetch_assoc($data);
 
                                                             <?php if ($result1['Kode_petugas'] == $row['id_petugas']) {
                                                                 $disable = "text-white disabled";
-                                                                $text = "Sudah Terdaftar";
+                                                                $text = "Sudah Mendaftar";
                                                             } else {
                                                                 $disable = "";
                                                                 $text = "Daftar";
