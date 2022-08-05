@@ -73,12 +73,12 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="profile.php"><i class="ti-user m-r-5 m-l-5"></i>
+                                <a class="dropdown-item" href="profile.php"><i class="fa-regular fa-circle-user"></i>
                                     My Profile</a>
                             </li>
                             <li class="logout" id="logout">
                                 <button class="dropdown-item btn btn-link" data-bs-toggle="modal"
-                                    data-bs-target="#Logout"><i class="m-r-10 mdi mdi-export"></i>
+                                    data-bs-target="#Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>
                                     Logout</button>
                             </li>
                         </ul>

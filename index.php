@@ -98,7 +98,7 @@ if (isset($_SESSION['id'])) {
                             href='page/index.php'>Dashboard</a><a class='btn btn-link ms-3' href='logout.php'
                             style='text-decoration: none;'>Logout</a></div>
                     <?php else : ?>
-                    <div class='d-flex ms-lg-4'><a class='btn btn-secondary-outline' href='page/login.php'>Sign In</a><a
+                    <div class='d-flex ms-lg-4'><a class='btn btn-outline-primary' href='page/login.php'>Sign In</a><a
                             class='btn btn-primary ms-3' href='page/login.php'>Sign Up</a></div>
                     <?php endif; ?>
                 </div>
@@ -191,7 +191,7 @@ if (isset($_SESSION['id'])) {
                             Sangat membantu mitra untuk melakukan pendaftaran survei lapangan secara online dan realtime
                         </p>
                         <h4 class="fs-1 fw-bold">One Click</h4>
-                        <p class="mb-4 fw-medium text-secondary">Dengan oneclick akan mempercepat segala proses online.
+                        <p class="mb-4 fw-medium text-secondary">Dengan one click akan mempercepat segala proses online.
                         </p>
                         <!-- <h4 class="fs-1 fw-bold">Room Chat</h4>
                         <p class="mb-4 fw-medium text-secondary">Berkomunikasi bersama menjadi lebih mudah.</p> -->
@@ -256,12 +256,18 @@ if (isset($_SESSION['id'])) {
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h5 class="text-secondary">Dukungan awal untuk negara</h5>
-                        <p class="mb-2 fs-8 fw-bold">Pemerintahan</p>
-                        <p class="mb-4 fw-medium text-secondary">Sebagai langkah awal untuk perubahan industri teknologi
-                            di Indonesia! Pendataan penduduk yang diharapkan menjadi suatu langkah ideal untuk
-                            Indonesia.</p>
-                        <h4 class="fw-bold fs-1">Pemberi Keputusan yang Handal</h4>
+                        <h4 class="mb-4 fw-medium text-secondary">Sesuai amanat Undang - Undang Nomor 16 Tahun
+                            1997 tentang Statistik
+                            dan Peraturan Pemerintah Nomor 51 Tahun 1999 tentang Penyelenggaraan Statistik
+                        </h4>
+                        <p class="mb-2 fs-8 fw-bold">Badan Pusat Statistik</p>
+                        <p class="mb-4 fw-medium text-secondary">Menyelengggarakan kegiatan sensus dan survei secara
+                            rutin. Salah satu tahapan penting dalam pelaksanaan kegiatan sensus dan survei adalah
+                            rekrutmen mitra.
+                        <p class="mb-4 fw-medium text-secondary">Rekrutmen harus direncanakan dan dilaksanakan dengan
+                            sungguh - sungguh dan
+                            seksama agar diperoleh petugas mitra yang bertanggung jawab, disiplin, ulet dan teliti.</p>
+                        <!-- <h4 class="fw-bold fs-1">Pemberi Keputusan yang Handal</h4>
                         <p class="mb-4 fw-medium text-secondary">Memberi keputusan yang tepat dengan harapan mendapat
                             hasil yang bermanfaat</p>
                         <h4 class="fw-bold fs-1">Upgrade dari Hal Lama</h4>
@@ -269,7 +275,7 @@ if (isset($_SESSION['id'])) {
                             menjadi lebih modern dan praktis </p>
                         <h4 class="fw-bold fs-1">Pendataan yang Idealis</h4>
                         <p class="mb-4 fw-medium text-secondary">Data yang disajikan mudah diproses dan diolah dengan
-                            cepat</p>
+                            cepat</p> -->
                     </div>
                     <div class="col-lg-6"><img class="img-fluid" src="public/img/bg/4.jpg" alt="" /></div>
                 </div>
@@ -328,8 +334,8 @@ if (isset($_SESSION['id'])) {
 
 
         <section id="contact" class="py-md-8 py-5 mb-3">
-            <div class="bg-holder z-index--1 bottom-0 d-sm-block background-position-top"
-                style="background-image:url(public/assets/assets/img/superhero/oval.png);opacity:.5; background-position: top !important ;">
+            <div class="bg-holder z-index--1 bottom-0 d-sm-block background-position-top" style="background-image:url(public/assets/assets/img/superhero/oval.png);opacity:.5; background-position:
+            top !important ;">
             </div>
             <div class="container" data-aos="fade-up">
                 <div class="row justify-content-center">

@@ -10,7 +10,7 @@ if (isset($_SESSION['id'])) {
 <html lang="en" class="h-100">
 
 <head>
-    <title>Login | Simitra</title>
+    <title>Login | Simitra Aceh Utara</title>
     <?php include 'meta.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -26,7 +26,7 @@ if (isset($_SESSION['id'])) {
                 <div class="mt-4 pb-3">
                     <img src="../public/logo.png" alt="LOGO" height="128px">
                 </div>
-                <h1 class="text-center mt-1 pb-2">Simitra</h1>
+                <h1 class="text-center mt-1 pb-2">Simitra Aceh Utara</h1>
             </a>
 
             <!-- Alert -->
@@ -65,7 +65,8 @@ if (isset($_SESSION['id'])) {
                     <form method="POST" style="width: 350px;" action="../model/login.php" class="mx-auto">
                         <label for="floatingUsername" class="form-label">Username</label>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon3"><i class="mdi mdi-account"></i></span>
+                            <span class="input-group-text" id="basic-addon3"><i
+                                    class="fa-solid fa-circle-user"></i></span>
                             <input type="text" class="form-control" id="floatingUsername" placeholder="Username"
                                 name="username" maxlength="25" required oninput="this.value = this.value.toLowerCase()"
                                 value="<?= isset($_SESSION['username']) ? $_SESSION['username'] : '' ?>"
@@ -73,7 +74,7 @@ if (isset($_SESSION['id'])) {
                         </div>
                         <label for="floatingPassword" class="form-label">Password</label>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon3"><i class="mdi mdi-key"></i></span>
+                            <span class="input-group-text" id="basic-addon3"><i class="fa-solid fa-key"></i></span>
                             <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
                                 name="password" maxlength="50" required>
                         </div>
@@ -86,11 +87,13 @@ if (isset($_SESSION['id'])) {
 
                         <div class="d-grid gap-2 mb-3">
                             <button type="submit" class="btn btn-block btn-primary text-center" disabled name="submit"
-                                id="login"><i class="mdi mdi-login"></i> Login</button>
+                                id="login">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
+                            </button>
                         </div>
                         <div class="d-grid gap-2 mx-auto">
-                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-                                data-bs-target="#Registrasi"><i class="mdi mdi-file-document-box"></i>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#Registrasi"><i class="fa-solid fa-file-lines"></i>
                                 Registrasi</button>
                         </div>
                     </form>
@@ -200,7 +203,7 @@ if (isset($_SESSION['id'])) {
 
                         <div class="d-grid gap-2">
                             <button type="submit" name="register" class="btn btn-primary"><i
-                                    class="mdi mdi-file-document-box"></i> Daftar</button>
+                                    class="fa-solid fa-file-lines"></i> Daftar</button>
                         </div>
                     </form>
                 </div>
