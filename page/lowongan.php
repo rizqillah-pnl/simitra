@@ -19,15 +19,13 @@ $result1 = mysqli_fetch_assoc($sql);
 if ($result1['Id_jabatan'] == "1") :
 
     $jumlahDataPerHalaman = 10;
-    $jumData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) FROM auth"));
-    $jumlahHalaman = ceil($jumData['COUNT(*)'] / $jumlahDataPerHalaman);
+    $jumData = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM lowongan"));
+    $jumlahHalaman = ceil($jumData / $jumlahDataPerHalaman);
     $halamanAktif = (isset($_GET['page'])) ? $_GET['page'] : 1;
     $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
 
     $data = mysqli_query($conn, "SELECT * FROM lowongan LIMIT $awalData, $jumlahDataPerHalaman");
-
-
 
 ?>
 
@@ -58,9 +56,11 @@ if ($result1['Id_jabatan'] == "1") :
                     <ul id="sidebarnav">
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.php" aria-expanded="false"><i class="mdi mdi-account"></i><span class="hide-menu">Profile</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.php" aria-expanded="false"><i class="fa-solid fa-circle-user"></i><span class="hide-menu">Profile</span></a></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="lowongan-user.php" aria-expanded="false"><i class="mdi mdi-worker"></i><span class="hide-menu">Lowongan Terdaftar</span></a></li>
+                        <?php if ($result1['Id_jabatan'] == 2) :  ?>
+                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="lowongan-user.php" aria-expanded="false"><i class="mdi mdi-worker"></i><span class="hide-menu">Lowongan Terdaftar</span></a></li>
+                        <?php endif; ?>
 
                         <?php if ($result1['Id_jabatan'] == 1) {  ?>
                             <li class="sidebar-item" style="background-color: #1a9bfc; border-radius: 9px"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="lowongan.php" aria-expanded="false"><i class="mdi mdi-file-document-box text-white"></i><span class="hide-menu text-white">Daftar Lowongan</span></a></li>
@@ -114,62 +114,33 @@ if ($result1['Id_jabatan'] == "1") :
             if (isset($_SESSION['pesan'])) :
                 $pesan =  $_SESSION['pesan'];
             ?>
-                <?php
-                if ($pesan == "gagal") :
-                ?>
+                <?php if ($pesan == 200) : ?>
                     <script>
-                        swal("Gagal!", "Username Telah Digunakan!", "warning");
+                        swal("Berhasil!", "Data Lowongan Telah Ditambahkan!", "success");
                     </script>
-                <?php
-                elseif ($pesan == "error") :
-                ?>
+                <?php elseif ($pesan == 300) : ?>
                     <script>
-                        swal("Gagal!", "Menambahkan Akun Baru!", "warning");
+                        swal("Gagal!", "Data Lowongan Gagal Ditambahkan!", "error");
                     </script>
-                <?php
-                elseif ($pesan == "berhasil") :
-                ?>
+                <?php elseif ($pesan == 201) : ?>
                     <script>
-                        swal("Berhasil", "Menambahkan Akun Baru!", "success");
+                        swal("Berhasil!", "Update Data Lowongan Berhasil Dilakukan!", "success");
                     </script>
-                <?php elseif ($pesan == "1") :
-                ?>
+                <?php elseif ($pesan == 301) : ?>
                     <script>
-                        swal("Gagal!", "Akun Sedang Melakukan Pendataan Bangunan!", "warning");
+                        swal("Gagal!", "Data Lowongan Gagal Diupdate!", "warning");
                     </script>
-                <?php
-                elseif ($pesan == "ok") :
-                ?>
-                    <div class="alert alert-info d-flex align-items-center" role="alert">
-                        <div>
-                            <?php if (isset($_SESSION['message'])) : ?>
-                                <ul>
-                                    <?php foreach ($_SESSION['message'] as $pesan) : ?>
-                                        <li><?= $pesan; ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                <?php else : ?>
+                <?php elseif ($pesan == 202) : ?>
                     <script>
-                        swal("Gagal!", "Menghapus Akun!", "warning");
+                        swal("Berhasil!", "Hapus Data Lowongan Berhasil Dilakukan!", "success");
+                    </script>
+                <?php elseif ($pesan == 302) : ?>
+                    <script>
+                        swal("Gagal!", "Data Lowongan Gagal Dihapus!", "error");
                     </script>
                 <?php endif; ?>
-            <?php endif; ?>
-
-
-            <?php if (isset($_SESSION['delete-account'])) : ?>
-
-                <script>
-                    let nama = "<?= $_SESSION['delete-account']; ?>";
-                    swal("Berhasil", "Menghapus Akun " + nama + "!", "success");
-                </script>
             <?php endif;
-            unset($_SESSION['delete-account']);
             unset($_SESSION['pesan']);
-            unset($_SESSION['message']);
             ?>
 
             <!-- ============================================================== -->
@@ -178,19 +149,19 @@ if ($result1['Id_jabatan'] == "1") :
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
+            <div class="container-fluid mb-5">
                 <div class="row">
                     <div class="col-lg">
                         <div class="mb-0">
-                            <button type="button" class="btn btn-primary text-white text-center mb-2" data-bs-toggle="modal" data-bs-target="#TambahUser"><i class="mdi mdi-account-plus"></i> Tambah User</button>
+                            <button type="button" class="btn btn-primary text-white text-center mb-2" data-bs-toggle="modal" data-bs-target="#TambahLowongan"><i class="mdi mdi-account-plus"></i> Tambah Lowongan</button>
                         </div>
                     </div>
-                    <!-- 
+
                     <div class="col-lg">
                         <div class="d-flex flex-row-reverse mb-3">
                             <input type="text" style="height: 35px; width: 100%;" name="search" id="search" placeholder="Search . . ." autocomplete="off" class="form-control" autofocus>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
 
                 <div class="table-responsive" id="container">
@@ -221,7 +192,7 @@ if ($result1['Id_jabatan'] == "1") :
                                                 <button type="button" class="btn btn-warning mt-1 text-center" data-bs-toggle="modal" data-bs-target="#Edit<?= $row['id']; ?>"><i class="mdi mdi-pencil"></i></button>
                                             </div>
                                             <div class="col" style="padding: 0; margin: 0;">
-                                                <button type="button" class="btn btn-danger mt-1 text-white text-center" data-bs-toggle="modal" data-bs-target="#Delete<?= $row['id']; ?>"> <i class="mdi mdi-account-remove"></i></button>
+                                                <button type="button" class="btn btn-danger mt-1 text-white text-center" data-bs-toggle="modal" data-bs-target="#Delete<?= $row['id']; ?>"> <i class="mdi mdi-close-outline"></i></button>
                                             </div>
                                         </td>
                                         <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
@@ -243,8 +214,9 @@ if ($result1['Id_jabatan'] == "1") :
                         </tbody>
                     </table>
                 </div>
-                <?php if (mysqli_num_rows($data) != 0) : ?>
-                    <div class="col mt-2" style="position: absolute; right: 150px">
+                <?php $allData = mysqli_query($conn, "SELECT * FROM lowongan"); ?>
+                <?php if ((mysqli_num_rows($allData) != 0) && (mysqli_num_rows($allData) > 10)) : ?>
+                    <div class="row mt-2 mb-5" style="position: absolute; right: 150px;">
                         <nav aria-label="...">
                             <ul class="pagination">
 
@@ -290,63 +262,55 @@ if ($result1['Id_jabatan'] == "1") :
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="EditLabel">Edit Akun</h5>
+                                    <h5 class="modal-title" id="EditLabel">Edit Lowongan</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="../model/edit-lowongan.php" method="POST">
+                                <form action="../model/edit-lowongan.php" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="id" value="<?= $row['id']; ?>">
                                     <div class="modal-body">
                                         <div class="mb-3 row">
+                                            <label for="gambar" class="col-md-4 col-form-label">Gambar Lowongan</label>
+                                            <div class="col-sm-8">
+                                                <input type="file" name="foto" class="form-control" accept="image/*">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
                                             <label for="Nama_Pekerjaan" class="col-md-4 col-form-label">Nama Pekerjaan</label>
                                             <div class="col-sm-8">
-                                                <input type="text" name="Nama_Pekerjaan" class="form-control" id="user" value="<?= $row['jenis_lowongan']; ?>" oninput="this.value = this.value.toLowerCase()" maxlength="25">
+                                                <input type="text" name="jenis" class="form-control" value="<?= $row['jenis_lowongan']; ?>" maxlength="25">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mb-3 row">
+                                            <label for="syarat" class="col-md-4 col-form-label">Persyaratan</label>
+                                            <div class="col-sm-8">
+                                                <textarea name="syarat" cols="37" class="form-control" rows="5" required><?= $row['persyaratan']; ?></textarea>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="email" class="col-md-4 col-form-label">Email</label>
+                                            <label for="deskripsi" class="col-md-4 col-form-label">Deskripsi</label>
                                             <div class="col-sm-8">
-                                                <input type="email" name="email" class="form-control" id="emai" value="<?= $row['Email']; ?>" oninput="this.value = this.value.toLowerCase()" maxlength="100">
+                                                <textarea name="deskripsi" cols="37" class="form-control" rows="5" required><?= $row['deskripsi']; ?></textarea>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="password" class="col-md-4 col-form-label">Password</label>
+                                            <label for="tglmulai" class="col-md-4 col-form-label">Tanggal Mulai</label>
                                             <div class="col-sm-8">
-                                                <input type="password" name="password" class="form-control" id="password1" maxlength="50">
+                                                <input type="date" name="tglmulai" class="form-control" required maxlength="50" value="<?= $row['tanggal_mulai']; ?>">
                                             </div>
                                         </div>
-                                        <?php $q = mysqli_query($conn, "SELECT * FROM jabatan"); ?>
                                         <div class="mb-3 row">
-                                            <label class="col-md-4 col-form-label">Jabatan</label>
+                                            <label for="tglakhir" class="col-md-4 col-form-label">Tanggal Akhir</label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" name="jabatan" aria-label="Default select example">
-                                                    <?php foreach ($q as $jabatan) : ?>
-                                                        <?php if ($_SESSION['Id_jabatan'] == "1") : ?>
-                                                            <?php if ($jabatan['Id_jabatan'] == $row['Id_jabatan']) : ?>
-                                                                <option value="<?= $jabatan['Id_jabatan']; ?>" selected>
-                                                                    <?= $jabatan['Jabatan']; ?></option>
-                                                                <?php continue; ?>
-                                                            <?php endif; ?>
-                                                            <option value="<?= $jabatan['Id_jabatan']; ?>"><?= $jabatan['Jabatan']; ?>
-                                                            </option>
-                                                            <?php continue; ?>
-                                                        <?php elseif ($jabatan['Id_jabatan'] == "1" || $jabatan['Id_jabatan'] == "2" && $result1['Id_jabatan'] == "2") : ?>
-                                                            <?php continue; ?>
-                                                        <?php endif; ?>
-                                                        <?php if ($jabatan['Id_jabatan'] == $row['Id_jabatan']) : ?>
-                                                            <option value="<?= $jabatan['Id_jabatan']; ?>" selected>
-                                                                <?= $jabatan['Jabatan']; ?></option>
-                                                            <?php continue; ?>
-                                                        <?php endif; ?>
-                                                        <option value="<?= $jabatan['Id_jabatan']; ?>"><?= $jabatan['Jabatan']; ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
+                                                <input type="date" name="tglakhir" class="form-control" required maxlength="50" value="<?= $row['tanggal_akhir']; ?>">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                        <button type="submit" name="edit-user" class="btn btn-warning">Edit</button>
+                                        <button type="submit" name="edit-lowongan" class="btn btn-warning">Edit</button>
                                     </div>
                                 </form>
                             </div>
@@ -369,7 +333,7 @@ if ($result1['Id_jabatan'] == "1") :
                                     <form action="../model/delete-lowongan.php" method="POST">
                                         <input type="hidden" name="id" value="<?= $row['id']; ?>">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                        <button type="submit" name="submit" class="btn btn-danger text-white">Hapus</button>
+                                        <button type="submit" name="delete-lowongan" class="btn btn-danger text-white">Hapus</button>
                                     </form>
                                 </div>
                             </div>
@@ -390,17 +354,31 @@ if ($result1['Id_jabatan'] == "1") :
                                     <table class="table table-striped-columns">
                                         <tr>
                                             <td>
-                                                Kode Lowongan
-                                            </td>
-                                            <td> : </td>
-                                            <td><?= $row['id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
                                                 Nama Lowongan
                                             </td>
                                             <td> : </td>
                                             <td><?= $row['jenis_lowongan']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Persyaratan
+                                            </td>
+                                            <td> : </td>
+                                            <td><?= $row['persyaratan']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Deskripsi
+                                            </td>
+                                            <td> : </td>
+                                            <td><?= $row['deskripsi']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Waktu Lowongan
+                                            </td>
+                                            <td> : </td>
+                                            <td><?= date('d F Y', strtotime($row['tanggal_mulai'])); ?> &#8594; <?= date('d F Y', strtotime($row['tanggal_akhir'])); ?></td>
                                         </tr>
 
                                     </table>
@@ -415,46 +393,55 @@ if ($result1['Id_jabatan'] == "1") :
             <?php endif; ?>
 
             <!-- Modal Tambah User -->
-            <div class="modal fade " id="TambahUser" tabindex="-1" aria-labelledby="TambahUserLabel" aria-hidden="true">
+            <div class="modal fade " id="TambahLowongan" tabindex="-1" aria-labelledby="TambahLowonganLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="TambahUserLabel">Tambah Akun</h5>
+                            <h5 class="modal-title" id="TambahLowonganLabel">Tambah Akun</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action="../model/tambah-user.php" method="POST">
+                        <form action="../model/tambah-lowongan.php" method="POST" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <div class="mb-3 row">
-                                    <label for="nama" class="col-md-4 col-form-label">Nama Petugas</label>
+                                    <label for="gambar" class="col-md-4 col-form-label">Gambar Lowongan</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="nama" class="form-control" id="nama" required maxlength="25">
+                                        <input type="file" name="foto" class="form-control" id="gambar" required accept="image/*">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="password" class="col-md-4 col-form-label">Password</label>
+                                    <label for="Jenis" class="col-md-4 col-form-label">Jenis Lowongan</label>
                                     <div class="col-sm-8">
-                                        <input type="password" name="password" class="form-control" id="password" required maxlength="50">
+                                        <input type="text" name="jenis" class="form-control" id="Jenis" required maxlength="200">
                                     </div>
                                 </div>
-                                <?php $q = mysqli_query($conn, "SELECT * FROM jabatan"); ?>
                                 <div class="mb-3 row">
-                                    <label class="col-md-4 col-form-label">Jabatan</label>
+                                    <label for="syarat" class="col-md-4 col-form-label">Persyaratan</label>
                                     <div class="col-sm-8">
-                                        <select class="form-select" name="jabatan" aria-label="Default select example">
-                                            <?php foreach ($q as $row) : ?>
-                                                <?php if ($row['Id_jabatan'] == "2") : ?>
-                                                    <option value="<?= $row['Id_jabatan']; ?>" selected><?= $row['Jabatan']; ?></option>
-                                                <?php else : ?>
-                                                    <option value="<?= $row['Id_jabatan']; ?>"><?= $row['Jabatan']; ?></option>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <textarea name="syarat" id="syarat" cols="37" class="form-control" rows="5" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="deskripsi" class="col-md-4 col-form-label">Deskripsi</label>
+                                    <div class="col-sm-8">
+                                        <textarea name="deskripsi" id="deskripsi" cols="37" class="form-control" rows="5" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="tglmulai" class="col-md-4 col-form-label">Tanggal Mulai</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" name="tglmulai" class="form-control" id="tglmulai" required maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="tglakhir" class="col-md-4 col-form-label">Tanggal Akhir</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" name="tglakhir" class="form-control" id="tglakhir" required maxlength="50">
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button type="submit" name="tambah-user" class="btn btn-primary">Tambah</button>
+                                <button type="submit" name="tambah-lowongan" class="btn btn-primary">Tambah</button>
                             </div>
                         </form>
                     </div>
