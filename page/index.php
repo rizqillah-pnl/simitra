@@ -69,6 +69,15 @@ $result1 = mysqli_fetch_assoc($data);
             <script>
                 swal("Gagal!", "Sudah Mendaftar Sebagai Petugas!", "warning");
             </script>
+        <?php elseif ($pesan == 205) : ?>
+            <script>
+                swal("Berhasil!", "Lowongan Berhasil Dibatalkan!", "success");
+            </script>
+
+        <?php elseif ($pesan == 305) : ?>
+            <script>
+                swal("Gagal!", "Lowongan Gagal Dibatalkan!", "warning");
+            </script>
         <?php endif; ?>
     <?php endif; ?>
 
@@ -166,13 +175,13 @@ $result1 = mysqli_fetch_assoc($data);
                                     <h6 class="card-subtitle">Daftar Lowongan Pekerjaan</h6>
 
                                     <div class="row">
-                                        <?php $dataLowongan = mysqli_query($conn, "SELECT lowongan.id, lowongan.jenis_lowongan, lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, lowongan.gambar, tb_lowongan_user.id_lowongan, tb_lowongan_user.id_petugas FROM lowongan LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_lowongan=lowongan.id"); ?>
+                                        <?php $dataLowongan = mysqli_query($conn, "SELECT * FROM lowongan"); ?>
 
                                         <?php foreach ($dataLowongan as $row) : ?>
-                                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col mx-auto">
+                                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mx-auto">
                                                 <div class="card-group">
                                                     <div class="card" style="width: 18rem;">
-                                                        <img src="../public/img/assets/<?= $row['gambar']; ?>" class="card-img-top" alt="Image">
+                                                        <img src="../public/img/assets/<?= $row['gambar']; ?>" class="card-img-top" alt="Image" height="230" width="200">
                                                         <div class="card-body">
                                                             <h5 class="card-title"><?= $row['jenis_lowongan']; ?></h5>
                                                             <p class="card-text"><?= $row['deskripsi']; ?></p>
@@ -185,16 +194,31 @@ $result1 = mysqli_fetch_assoc($data);
                                                             <div class="card-text mb-3">Tanggal : <?= $tanggalMulai; ?> -
                                                                 <?= $tanggalAkhir; ?></div>
 
-                                                            <?php if ($result1['Kode_petugas'] == $row['id_petugas']) {
+                                                            <?php $idLowongan = $row['id']; ?>
+                                                            <?php $idPetugas = $result1['Kode_petugas']; ?>
+                                                            <?php $cekDaftar = mysqli_query($conn, "SELECT * FROM tb_lowongan_user WHERE id_lowongan='$idLowongan' AND id_petugas='$idPetugas'"); ?>
+
+                                                            <?php if (mysqli_num_rows($cekDaftar) != 0) : ?>
+                                                                <?php $dataLw = mysqli_fetch_assoc($cekDaftar); ?>
+                                                                <?php $idTbLw = $dataLw['id']; ?>
+                                                            <?php endif; ?>
+                                                            <?php if (mysqli_num_rows($cekDaftar) == 1) {
                                                                 $disable = "text-white disabled";
                                                                 $text = "Sudah Mendaftar";
+                                                                $batal = "<button type='button' class='btn btn-danger mt-1 text-white text-center mb-2'
+                                                                    data-bs-toggle='modal' data-bs-target='#Delete$idTbLw'> <i
+                                                                        class='mdi mdi-trash'></i> Batal Daftar</button>";
                                                             } else {
                                                                 $disable = "";
                                                                 $text = "Daftar";
+                                                                $batal = "";
                                                             } ?>
 
                                                             <?php if ($result1['Id_jabatan'] != "1") : ?>
-                                                                <div class="text-end"><button class="btn btn-success text-white <?= $disable; ?>" data-bs-toggle="modal" data-bs-target="#modal<?= $row['id']; ?>"><?= $text; ?></button>
+                                                                <div class="text-center text-xl-end text-lg-end">
+                                                                    <?= $batal; ?>
+
+                                                                    <button class="btn btn-success text-white <?= $disable; ?>" data-bs-toggle="modal" data-bs-target="#modal<?= $row['id']; ?>"><?= $text; ?></button>
                                                                 </div>
                                                             <?php endif; ?>
                                                         </div>
@@ -263,6 +287,33 @@ $result1 = mysqli_fetch_assoc($data);
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
+
+        <?php $kode = $result1['Kode_petugas']; ?>
+        <?php $dataFull = mysqli_query($conn, "SELECT tb_lowongan_user.id, tb_lowongan_user.tanggal_daftar, lowongan.jenis_lowongan FROM tb_lowongan_user LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan WHERE id_petugas='$kode'"); ?>
+        <?php foreach ($dataFull as $row) : ?>
+            <!-- Modal Delete -->
+            <div class="modal fade " id="Delete<?= $row['id']; ?>" tabindex="-1" aria-labelledby="DeleteLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="DeleteLabel">Hapus Pekerjaan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Anda yakin ingin Membatalkan Pekerjaan <strong><?= $row['jenis_lowongan']; ?></strong>?
+                        </div>
+                        <div class="modal-footer">
+                            <form action="../model/delete-lowongan-user.php" method="POST">
+                                <input type="hidden" name="url" value="index.php">
+                                <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" name="submit" class="btn btn-danger text-white">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
 
 
         <?php
