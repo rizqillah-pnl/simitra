@@ -16,6 +16,7 @@ $sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Passwo
 
 $result1 = mysqli_fetch_assoc($sql);
 
+// ini adalah cek id jabatannya admin atau bukan!
 if ($result1['Id_jabatan'] == "1") :
 
     $jumlahDataPerHalaman = 10;
@@ -451,6 +452,7 @@ if ($result1['Id_jabatan'] == "1") :
             <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
             <?php include 'footer.php'; ?>
+
         <?php else : ?>
-            <?php header("Location: ../index.php"); ?>
+            <?php header("Location: index.php"); ?>
         <?php endif; ?>

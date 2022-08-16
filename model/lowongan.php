@@ -10,13 +10,14 @@ $result = mysqli_fetch_assoc($sql);
 
 if (isset($_POST['daftarLowongan'])) {
     $idLowongan = $_POST['idLowongan'];
-    
+    $kec = $_POST['kecamatan'];
+
     $cari = mysqli_query($conn, "SELECT * FROM tb_lowongan_user WHERE id='$idLowongan' AND id_petugas='$kode'");
     if (mysqli_num_rows($cari) == 0) {
 
         date_default_timezone_set('Asia/Jakarta');
         $now = date("Y-m-d H-i-s");
-        $daftar = mysqli_query($conn, "INSERT INTO tb_lowongan_user (id_lowongan, id_petugas, id_kec, tanggal_daftar) VALUES ('$idLowongan', '$kode', $id_kec', '$now')");
+        $daftar = mysqli_query($conn, "INSERT INTO tb_lowongan_user (id_lowongan, id_petugas, id_kec, tanggal_daftar) VALUES ('$idLowongan', '$kode', '$kec', '$now')");
 
         if ($daftar) {
             $_SESSION['pesan'] = "berhasil";
