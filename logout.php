@@ -9,7 +9,7 @@ $now = date("Y-m-d H:i:s");
 $insert = mysqli_query($conn, "UPDATE auth SET Last_login='$now' WHERE Kode_petugas='$kode'");
 session_destroy();
 
-header('Location: public/login.php');
+header('Location: page/login.php');
 
 
 
