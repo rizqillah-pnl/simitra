@@ -11,7 +11,6 @@ $kode = $_SESSION['id'];
 date_default_timezone_set('Asia/Jakarta');
 $now = date("Y-m-d H-i-s");
 $insert = mysqli_query($conn, "UPDATE auth SET Last_login='$now' WHERE Kode_petugas='$kode'");
-
 $sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode' ORDER BY c.Id_jabatan");
 
 $result1 = mysqli_fetch_assoc($sql);
@@ -33,7 +32,7 @@ if ($result1['Id_jabatan'] == "1") :
 <html dir="ltr" lang="en">
 
 <head>
-    <title>Daftar Lowongan | GeoBase</title>
+    <title>Daftar Lowongan | Simitra</title>
     <?php include 'meta.php'; ?>
 </head>
 
@@ -169,13 +168,13 @@ if ($result1['Id_jabatan'] == "1") :
         <!-- ============================================================== -->
         <div class="container-fluid mb-5">
             <div class="row">
-                <div class="col-lg">
+                <!-- <div class="col-lg">
                     <div class="mb-0">
                         <button type="button" class="btn btn-primary text-white text-center mb-2" data-bs-toggle="modal"
                             data-bs-target="#TambahLowongan"><i class="mdi mdi-account-plus"></i> Tambah
                             Lowongan</button>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="col-lg">
                     <div class="d-flex flex-row-reverse mb-3">
@@ -193,14 +192,19 @@ if ($result1['Id_jabatan'] == "1") :
                             <td>Nama Lowongan</td>
                             <td>Nama Pendaftar</td>
                             <td>Kecamatan</td>
-                            <td>Deskripsi</td>
+
                             <td>Tanggal Pekerjaan</td>
                             <td>Action</td>
                         </tr>
                     </thead>
                     <?php $no = $awalData; ?>
                     <tbody>
-                        <?php $pendaftar = mysqli_query($conn, "SELECT tb_lowongan_user.id, tb_lowongan_user.id_lowongan, tb_lowongan_user.id_petugas, tb_lowongan_user.tanggal_daftar, tb_lowongan_user.id_kec, lowongan.jenis_lowongan, lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, lowongan.gambar, petugas.nama FROM tb_lowongan_user LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN petugas ON petugas.kode_petugas=tb_lowongan_user.id_petugas WHERE tb_lowongan_user.id_petugas='$kode' ORDER BY tb_lowongan_user.id DESC LIMIT $awalData, $jumlahDataPerHalaman"); ?>
+                        <?php $pendaftar = mysqli_query($conn, "SELECT tb_lowongan_user.id, tb_lowongan_user.id_lowongan, 
+                        tb_lowongan_user.id_petugas, tb_lowongan_user.tanggal_daftar, tb_lowongan_user.id_kec, lowongan.jenis_lowongan,
+                        lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, lowongan.gambar, petugas.nama, tb_kecamatan.nama_kec FROM 
+                        tb_lowongan_user LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN petugas ON 
+                        petugas.kode_petugas=tb_lowongan_user.id_petugas LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec
+                        ORDER BY tb_lowongan_user.id DESC LIMIT $awalData, $jumlahDataPerHalaman"); ?>
                         <?php if (mysqli_num_rows($pendaftar) != 0) : ?>
                         <?php foreach ($pendaftar as $row) : ?>
                         <tr class="text-start">
@@ -219,10 +223,6 @@ if ($result1['Id_jabatan'] == "1") :
                             <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
                                 <?= $row['nama_kec']; ?>
                             </td>
-                            </td>
-                            <td class="text-start text-dark text-wrap text-break"
-                                style="padding-bottom: 0; padding-top: 0;width: 10rem;">
-                                <?= $row['deskripsi']; ?>
                             </td>
                             <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
                                 <?= date('d M Y', strtotime($row['tanggal_mulai'])); ?> &#8594;
