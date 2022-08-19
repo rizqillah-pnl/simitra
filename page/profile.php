@@ -100,6 +100,11 @@ $result1 = mysqli_fetch_assoc($sql);
                             href="lowongan.php" aria-expanded="false"><i class="mdi mdi-file-document-box"></i><span
                                 class="hide-menu">Daftar Lowongan</span></a></li>
 
+                    <li class="sidebar-item" style="background-color: #1a9bfc; border-radius: 9px"> <a
+                            class="sidebar-link waves-effect waves-dark sidebar-link" href="seleksi-daftar.php"
+                            aria-expanded="false"><i class="mdi mdi-file-document-box text-white"></i><span
+                                class="hide-menu text-white">Seleksi Pendaftar</span></a></li>
+
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                             href="user.php" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span
                                 class="hide-menu">Account</span></a></li>

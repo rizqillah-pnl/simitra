@@ -20,14 +20,13 @@ $result1 = mysqli_fetch_assoc($sql);
 if ($result1['Id_jabatan'] == "1") :
 
     $jumlahDataPerHalaman = 10;
-    $jumData = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM lowongan"));
+    $jumData = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM auth"));
     $jumlahHalaman = ceil($jumData / $jumlahDataPerHalaman);
     $halamanAktif = (isset($_GET['page'])) ? $_GET['page'] : 1;
     $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
 
-    $data = mysqli_query($conn, "SELECT * FROM lowongan LIMIT $awalData, $jumlahDataPerHalaman");
-
+    $data = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan ORDER BY b.Jabatan, a.Last_login DESC LIMIT $awalData, $jumlahDataPerHalaman");
 ?>
 
 <!DOCTYPE html>
@@ -118,10 +117,10 @@ if ($result1['Id_jabatan'] == "1") :
                         <ol class="breadcrumb mb-0 d-flex align-items-center">
                             <li class="breadcrumb-item"><a href="index.php" class="link"><i
                                         class="mdi mdi-home-outline fs-4"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Lowongan</li>
+                            <li class="breadcrumb-item active" aria-current="page">Seleksi Pendaftar</li>
                         </ol>
                     </nav>
-                    <h1 class="mb-0 fw-bold">Daftar Lowongan</h1>
+                    <h1 class="mb-0 fw-bold">Seleksi Pendaftar</h1>
                 </div>
                 <div class="col-6">
 
@@ -191,21 +190,45 @@ if ($result1['Id_jabatan'] == "1") :
                     <thead class="table-dark">
                         <tr class="fw-semibold text-center">
                             <td>No</td>
-                            <td>Action</td>
-                            <td>Kode Lowongan</td>
                             <td>Nama Lowongan</td>
+                            <td>Nama Pendaftar</td>
+                            <td>Kecamatan</td>
                             <td>Deskripsi</td>
                             <td>Tanggal Pekerjaan</td>
+                            <td>Action</td>
                         </tr>
                     </thead>
                     <?php $no = $awalData; ?>
                     <tbody>
-                        <?php if (mysqli_num_rows($data) != 0) : ?>
-                        <?php foreach ($data as $row) : ?>
+                        <?php $pendaftar = mysqli_query($conn, "SELECT tb_lowongan_user.id, tb_lowongan_user.id_lowongan, tb_lowongan_user.id_petugas, tb_lowongan_user.tanggal_daftar, tb_lowongan_user.id_kec, lowongan.jenis_lowongan, lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, lowongan.gambar, petugas.nama FROM tb_lowongan_user LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN petugas ON petugas.kode_petugas=tb_lowongan_user.id_petugas WHERE tb_lowongan_user.id_petugas='$kode' ORDER BY tb_lowongan_user.id DESC LIMIT $awalData, $jumlahDataPerHalaman"); ?>
+                        <?php if (mysqli_num_rows($pendaftar) != 0) : ?>
+                        <?php foreach ($pendaftar as $row) : ?>
                         <tr class="text-start">
                             <td scope="row" style="padding-bottom: 0; padding-top: 0;">
                                 <p class="text-dark"><?= $no = $no + 1; ?></p>
                             </td>
+
+                            <td class="text-start text-dark text-wrap text-break"
+                                style="padding-bottom: 0; padding-top: 0; width: 10rem;">
+                                <?= $row['jenis_lowongan']; ?>
+
+                            <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
+                                <?= $row['nama']; ?>
+                            </td>
+
+                            <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
+                                <?= $row['nama_kec']; ?>
+                            </td>
+                            </td>
+                            <td class="text-start text-dark text-wrap text-break"
+                                style="padding-bottom: 0; padding-top: 0;width: 10rem;">
+                                <?= $row['deskripsi']; ?>
+                            </td>
+                            <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
+                                <?= date('d M Y', strtotime($row['tanggal_mulai'])); ?> &#8594;
+                                <?= date('d M Y', strtotime($row['tanggal_akhir'])); ?>
+                            </td>
+
                             <td class="row" style="padding-bottom: 0; padding-top: 0;">
                                 <div class="col" style="padding: 0; margin: 0;">
                                     <button type="button" class="btn btn-success mt-1 text-center  text-white"
@@ -222,21 +245,6 @@ if ($result1['Id_jabatan'] == "1") :
                                         data-bs-toggle="modal" data-bs-target="#Delete<?= $row['id']; ?>"> <i
                                             class="mdi mdi-close-outline"></i></button>
                                 </div>
-                            </td>
-                            <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
-                                <?= $row['id']; ?>
-                            </td>
-                            <td class="text-start text-dark text-wrap text-break"
-                                style="padding-bottom: 0; padding-top: 0; width: 10rem;">
-                                <?= $row['jenis_lowongan']; ?>
-                            </td>
-                            <td class="text-start text-dark text-wrap text-break"
-                                style="padding-bottom: 0; padding-top: 0;width: 10rem;">
-                                <?= $row['deskripsi']; ?>
-                            </td>
-                            <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
-                                <?= date('d M Y', strtotime($row['tanggal_mulai'])); ?> &#8594;
-                                <?= date('d M Y', strtotime($row['tanggal_akhir'])); ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
